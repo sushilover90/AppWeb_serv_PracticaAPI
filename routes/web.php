@@ -14,6 +14,4 @@
 
 Auth::routes();
 
-//comentario
-
 Route::get('/home', 'HomeController@index')->name('home');
