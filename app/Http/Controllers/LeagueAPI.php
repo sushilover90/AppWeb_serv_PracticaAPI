@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
-use Psy\Util\Str;
 
 class LeagueAPI extends Controller
 {
