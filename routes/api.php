@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/summoner/{SummonerName}', 'LeagueAPI@getSummonerInfo');
-Route::get('/champion/by-summoner/{id}', 'LeagueAPI@getChampionMastery');
-
+Route::group(['middleware'=>['auth:api']],function (){
+    Route::post('/summoner/{SummonerName}', 'LeagueAPI@getSummonerInfo');
+    Route::post('/champion/by-summoner/{id}', 'LeagueAPI@getChampionMastery');
+});
