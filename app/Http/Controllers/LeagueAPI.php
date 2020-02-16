@@ -10,7 +10,7 @@ use App\Champ;
 
 class LeagueAPI extends Controller
 {
-    private static $token = "RGAPI-14bbe59b-73e1-41fc-91cf-c15d9ad01e18";
+    private static $token = "RGAPI-110e01bf-fdf8-4ffb-9eb4-e837f62b7fde";
     private static function header()
     {
         return [
@@ -53,12 +53,10 @@ class LeagueAPI extends Controller
         foreach ($data as $key) {
             $id = $key['key'];
             if ($id == $champId) {
-                $image = $key['name'];
                 $content = [
-                    'name' => $key['name'],
-                    'title' => $key['title'],
+                    'name' => strtoupper($key['name']),
+                    'title' => strtoupper($key['title']),
                     'details' => $key['blurb'],
-                    'image' => $image
                 ];
                 return $content;
             }
@@ -100,9 +98,12 @@ class LeagueAPI extends Controller
 
         $positionRanked = $response->getBody();
 
-        $positionRanked = json_decode($positionRanked, true);
+        if ($positionRanked != null){
 
-        return $positionRanked;
+            $positionRanked = json_decode($positionRanked, true);
+
+            return $positionRanked;
+        }
     }
     //Usar AccountID
     public static function getMatchHistory(String $Accountid)

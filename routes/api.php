@@ -21,4 +21,8 @@ Route::get('/summoner/{SummonerName}', 'LeagueAPI@getSummonerInfo');
 Route::get('/champion/by-summoner/{id}', 'LeagueAPI@getChampionMastery');
 Route::get('/champion-image/{id}', 'LeagueAPI@getChampImage');
 Route::get('/DDragon/{id}', 'LeagueAPI@getDDragon');
+Route::get('/RankedPos/{id}', 'LeagueAPI@getPositionRanked');
+
+
+
 

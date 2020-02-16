@@ -1976,6 +1976,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['get_icon', 'get_favchampions'],
   data: function data() {
@@ -1998,7 +2006,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.icon = this.get_icon;
     this.favchampions = JSON.parse(this.get_favchampions);
-    console.log(this.favchampions);
     this.summonerName = this.icon.split("/").pop();
     this.summonerName = this.summonerName.replace(".png", "");
     this.summonerName = this.summonerName.replace(" ", "");
@@ -2009,9 +2016,6 @@ __webpack_require__.r(__webpack_exports__);
     this.getChampName();
   },
   methods: {
-    getImageurl: function getImageurl(pic) {
-      return __webpack_require__("./public/Champions sync recursive ^\\.\\/.*$")("./" + pic);
-    },
     getInfo: function getInfo() {
       var self = this;
       axios.get("/api/summoner/".concat(this.Summoner.name)).then(function (response) {
@@ -2033,6 +2037,10 @@ __webpack_require__.r(__webpack_exports__);
           self.favchampsnames.push(response.data);
         });
       }
+    },
+    getRankedPosition: function getRankedPosition() {
+      var self = this;
+      axios.get("/api/RankedPos/".concat(this.Summoner.id)).then(function (response) {});
     }
   }
 });
@@ -6582,7 +6590,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#banner{\n    background-image:url(https://pbs.twimg.com/media/ELieqOhW4AENk6M.jpg); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3 {\n    color: rgb(236, 195, 59);\n    text-shadow: 2px 2px 10px rgba(14, 14, 29, 0.863);\n}\nh5 {\n    color: rgb(14, 31, 90);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n", ""]);
+exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3 {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n}\nh5 {\n    color: rgb(14, 31, 90);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n", ""]);
 
 // exports
 
@@ -38103,28 +38111,30 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "mb-5", attrs: { id: "banner" } }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col mt-3" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-sm-3 mt-3 text-center" }, [
           _c("img", {
             staticClass:
-              "rounded-circle img-fluid img-thumbnail mx-auto d-block",
+              "rounded-circle mx-auto img-fluid img-thumbnail d-block",
             staticStyle: { width: "9em", height: "9em" },
             attrs: {
               src: _vm.icon,
               alt: "Profile Icon",
               title: "Avatar del Invocador"
             }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col text-center" }, [
+          }),
+          _vm._v(" "),
           _c("h3", [_vm._v(_vm._s(_vm.Summoner.summonerLevel))]),
           _vm._v(" "),
           _c("h1", [_vm._v(_vm._s(_vm.Summoner.name))])
-        ])
-      ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row justify-content-center" }),
+      _vm._v(" "),
+      _c("div", [_vm._v("Platino")])
     ]),
     _vm._v(" "),
     _c("div", { attrs: { id: "champs" } }, [
@@ -38136,8 +38146,8 @@ var render = function() {
             "div",
             {
               key: index,
-              staticClass: "card",
-              staticStyle: { width: "18rem" }
+              staticClass: "card mx-3",
+              staticStyle: { width: "21rem" }
             },
             [
               _c("img", {
@@ -38146,9 +38156,11 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _c("h3", [_vm._v(" " + _vm._s(champ.name))]),
-                _vm._v(" "),
-                _c("h4", [_vm._v(" " + _vm._s(champ.title))]),
+                _c("div", { staticClass: "text-center" }, [
+                  _c("h3", [_vm._v(" " + _vm._s(champ.name))]),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v(" " + _vm._s(champ.title))])
+                ]),
                 _vm._v(" "),
                 _c("h5", { staticClass: "card-title" }, [
                   _vm._v(
@@ -38168,7 +38180,24 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-3 mt-3 text-center" }, [
+      _c("img", {
+        staticClass: "mx-auto rounded-circle img-fluid img-thumbnail d-block",
+        staticStyle: { width: "9em", height: "9em" },
+        attrs: { src: "/images/emblems/Emblem_Challenger.png", alt: "" }
+      }),
+      _vm._v(" "),
+      _c("h3", [_vm._v("500 PL")]),
+      _vm._v(" "),
+      _c("h1", [_vm._v("Retador")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -50329,25 +50358,6 @@ module.exports = function(module) {
 	return module;
 };
 
-
-/***/ }),
-
-/***/ "./public/Champions sync recursive ^\\.\\/.*$":
-/*!****************************************!*\
-  !*** ./public/Champions sync ^\.\/.*$ ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function webpackEmptyContext(req) {
-	var e = new Error("Cannot find module '" + req + "'");
-	e.code = 'MODULE_NOT_FOUND';
-	throw e;
-}
-webpackEmptyContext.keys = function() { return []; };
-webpackEmptyContext.resolve = webpackEmptyContext;
-module.exports = webpackEmptyContext;
-webpackEmptyContext.id = "./public/Champions sync recursive ^\\.\\/.*$";
 
 /***/ }),
 

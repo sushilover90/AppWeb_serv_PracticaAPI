@@ -1,28 +1,36 @@
 <template>
     <div class="container">
         <div id="banner" class="mb-5">
-            <div class="row">
-                <div class="col mt-3">
-                    <img :src="icon" class="rounded-circle img-fluid img-thumbnail mx-auto d-block" alt="Profile Icon" title="Avatar del Invocador"
-                    style="width: 9em; height: 9em;">
+            <div class="row justify-content-center">
+                    <div class="col-sm-3 mt-3 text-center">
+                        <img :src="icon" class="rounded-circle mx-auto img-fluid img-thumbnail d-block" alt="Profile Icon" title="Avatar del Invocador"
+                        style="width: 9em; height: 9em;">
+                        <h3>{{ Summoner.summonerLevel }}</h3>
+                        <h1>{{ Summoner.name }}</h1>
+                    </div>
+                    <div class="col-sm-3 mt-3 text-center">
+                        <img src="/images/emblems/Emblem_Challenger.png" class="mx-auto rounded-circle img-fluid img-thumbnail d-block"
+                        style="width: 9em; height: 9em;" alt="">
+                        <h3>500 PL</h3>
+                        <h1>Retador</h1>
+                    </div>
+
                 </div>
+            <div class="row justify-content-center">
 
             </div>
-            <div class="row">
-                <div class="col text-center">
-                    <h3>{{ Summoner.summonerLevel }}</h3>
-                    <h1>{{ Summoner.name }}</h1>
-                </div>
-            </div>
+            <div>Platino</div>
         </div>
 
         <div id="champs">
             <div class="row justify-content-center">
-                <div v-for="(champ, index) in favchampsnames" :key="index" class="card" style="width: 18rem;">
+                <div v-for="(champ, index) in favchampsnames" :key="index" class="card mx-3" style="width: 21rem;">
                     <img :src="'/images/' + champ.name + '_0.jpg'" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h3> {{ champ.name }}</h3>
-                        <h4> {{ champ.title }}</h4>
+                        <div class="text-center">
+                            <h3> {{ champ.name }}</h3>
+                            <h4> {{ champ.title }}</h4>
+                        </div>
 
                         <h5 class="card-title">Maestria {{ favchampions[index].championLevel }}</h5>
                         <p class="card-text">{{ champ.details }}</p>
@@ -58,7 +66,6 @@ export default {
     created(){
         this.icon = this.get_icon;
         this.favchampions = JSON.parse(this.get_favchampions);
-        console.log(this.favchampions);
         this.summonerName = this.icon.split("/").pop();
         this.summonerName = this.summonerName.replace(".png", "")
         this.summonerName = this.summonerName.replace(" ", "");
@@ -71,9 +78,6 @@ export default {
     },
 
     methods:{
-        getImageurl:function(pic){
-            return require('../../../public/Champions/' + pic)
-        },
         getInfo:function(){
             let self = this;
             axios.get(`/api/summoner/${this.Summoner.name}`)
@@ -98,6 +102,14 @@ export default {
                 });
             }
         },
+
+        getRankedPosition:function(){
+            let self = this;
+            axios.get(`/api/RankedPos/${this.Summoner.id}`)
+            .then(function (response){
+
+            });
+        }
     }
 
 }
@@ -105,11 +117,11 @@ export default {
 
 <style>
     #banner{
-        background-image:url(https://pbs.twimg.com/media/ELieqOhW4AENk6M.jpg); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;
+        background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;
     }
     h1, h3 {
-        color: rgb(236, 195, 59);
-        text-shadow: 2px 2px 10px rgba(14, 14, 29, 0.863);
+        color: rgb(182, 149, 41);
+        text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);
     }
     h5 {
         color: rgb(14, 31, 90);
