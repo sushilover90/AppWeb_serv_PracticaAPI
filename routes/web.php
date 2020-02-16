@@ -23,3 +23,4 @@ Route::post('/summoner','LeagueAPI@getSummonerInfo')->middleware('auth');
 Route::get('/token/get','HomeController@getToken')->middleware('auth');
 Route::get('/riottoken','HomeController@getRiotToken')->middleware('auth');
 Route::post('/riottoken','HomeController@setRiotToken')->middleware('auth');
+Route::get('/profile/{SummonerName}','HomeController@profile');

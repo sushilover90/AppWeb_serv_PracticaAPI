@@ -87,6 +87,13 @@ class HomeController extends Controller
         return response()->json(['error'=>'Token inválido o vacío.'],409);
 
     }
+    
+    public function profile(String $profile){
+        $icon = LeagueAPI::getSummonerAvatar($profile);
+        $user = LeagueAPI::getSummonerInfo($profile);
+        $id = $user['id'];
+        return view('profile', ['icon' => $icon, 'fav' => LeagueAPI::getChampionMastery($id)]);
+    }
 
     public function board(Request $request)
     {

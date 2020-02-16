@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware'=>['auth:api']],function (){
-    Route::post('/summoner/{SummonerName}', 'LeagueAPI@getSummonerInfo');
+    Route::match(['post','get'],'/summoner/{SummonerName}', 'LeagueAPI@getSummonerInfo');
     Route::post('/champion/by-summoner/{id}', 'LeagueAPI@getChampionMastery');
+    Route::get('/champion/by-summoner/{id}', 'LeagueAPI@getChampionMastery');
+    Route::get('/champion-image/{id}', 'LeagueAPI@getChampImage');
+    Route::get('/DDragon/{id}', 'LeagueAPI@getDDragon');
+    Route::get('/RankedPos/{id}', 'LeagueAPI@getPositionRanked');
 });
