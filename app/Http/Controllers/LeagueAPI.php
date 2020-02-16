@@ -9,7 +9,6 @@ use GuzzleHttp\Exception\RequestException;
 
 class LeagueAPI extends Controller
 {
-    private static $token = "RGAPI-3bd8ee1a-0e8c-4c49-870c-062916bd7f2d";   //Mi token, deben cambiarlo si expira
 
     //Consigue toda la informacion acerca del perfil ingresado
     //Ingresas un String devuelve un JSON Object
