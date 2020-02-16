@@ -20,3 +20,4 @@ Route::post('/crear/token','HomeController@token')->middleware('auth');
 Route::post('/borrar/token','HomeController@borrarToken')->middleware('auth');
 Route::get('/board','HomeController@board')->middleware('auth');
 Route::post('/summoner','HomeController@summoner')->middleware('auth');
+Route::get('/profile/{SummonerName}','HomeController@profile');

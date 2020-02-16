@@ -54,6 +54,13 @@ class HomeController extends Controller
         return view('board');
     }
 
+    public function profile(String $profile){
+        $icon = LeagueAPI::getSummonerAvatar($profile);
+        $user = LeagueAPI::getSummonerInfo($profile);
+        $id = $user['id'];
+        return view('profile', ['icon' => $icon, 'fav' => LeagueAPI::getChampionMastery($id)]);
+    }
+
     public function summoner(Request $request)
     {
         return view('summoner',['summoner'=>LeagueAPI::getSummonerInfo($request->summoner_name)]);
