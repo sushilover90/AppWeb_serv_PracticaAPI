@@ -33,4 +33,15 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    public function Token()
+    {
+        return $this->hasMany(Token::class);
+    }
+
+    public function getTokens()
+    {
+        return $token = Token::getUserTokens($this->id,1)[0]->key;
+    }
+
 }

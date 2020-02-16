@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -31,12 +32,13 @@ class HomeController extends Controller
     {
 
         $token = Str::random(60);
+        $hashed_token = hash('sha256', $token);
 
         $request->user()->forceFill([
-            'api_token' => hash('sha256', $token),
+            'api_token' => $hashed_token,
         ])->save();
 
-        return view('token',['token' => $token]);
+        return view('token',['token' => $hashed_token]);
 
     }
 
@@ -49,14 +51,46 @@ class HomeController extends Controller
         return redirect('/home');
     }
 
-    public function board()
+    public function getToken(Request $request)
     {
-        return view('board');
+
+        return view('getToken',['token'=>$request->user()->api_token]);
+
     }
 
-    public function summoner(Request $request)
+    public function getRiotToken(Request $request)
     {
-        return view('summoner',['summoner'=>LeagueAPI::getSummonerInfo($request->summoner_name)]);
+
+        $user_id = $request->user()->id;
+
+        $token_actual = $request->user()->getTokens();
+
+        return view('riotToken',
+            ['datos'=>json_encode(
+                ['user_id'=>$user_id,
+                    'token_actual'=>$token_actual
+                ]
+            )
+            ]
+        );
+    }
+
+    public function setRiotToken(Request $request)
+    {
+        if(!$request->data['token']==''&&!$request->data['token']==null) {
+            $token = Token::createToken($request);
+
+            $user_id = $request->user()->id;
+
+            return Token::saveToken($token, $user_id, $request);
+        }
+        return response()->json(['error'=>'Token inválido o vacío.'],409);
+
+    }
+
+    public function board(Request $request)
+    {
+        return view('board');
     }
 
 }

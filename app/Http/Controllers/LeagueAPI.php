@@ -9,22 +9,21 @@ use GuzzleHttp\Exception\RequestException;
 
 class LeagueAPI extends Controller
 {
-    private static $token = "RGAPI-d06ab9e0-771f-4af5-ac00-b213b3a872b9";   //Mi token, deben cambiarlo si expira
+    private static $token = "RGAPI-3bd8ee1a-0e8c-4c49-870c-062916bd7f2d";   //Mi token, deben cambiarlo si expira
 
     //Consigue toda la informacion acerca del perfil ingresado
     //Ingresas un String devuelve un JSON Object
-    public static function getSummonerInfo(String $SummonerName){
+    public static function getSummonerInfo(Request $request){
 
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/$SummonerName", [
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/".$request->data['summoner_name'], [
             'headers'  => [
-                'X-Riot-Token' => LeagueAPI::$token
+                'X-Riot-Token' => self::getRiotToken($request)
             ]
         ]);
 
         $user = $response->getBody();
-        $user = json_decode($user, true);
         return $user;
 
     }
@@ -103,6 +102,12 @@ class LeagueAPI extends Controller
         $Historial = json_decode($Historial, true);
 
         return $Historial;
+
+    }
+
+    private static function getRiotToken(Request &$request){
+
+        return $request->user()->getTokens();
 
     }
 

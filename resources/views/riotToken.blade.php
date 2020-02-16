@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Board</div>
+                    <div class="card-header">Tu riot token actual, si ya caducó, ingresa uno nuevo.</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -15,14 +16,18 @@
                         @endif
 
                         <div id="app">
-                            <summoner-info>
+                            <riot-token datos="{{$datos}}">
 
-                            </summoner-info>
+                            </riot-token>
                         </div>
 
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-outline-info" href="/home">Volver a inicio</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection

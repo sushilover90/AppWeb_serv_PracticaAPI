@@ -17,10 +17,15 @@
                             <a class="btn btn-outline-info mb-3" href="/board">Board</a>
 
                         @if(Auth::user()->api_token==null)
-                            <form action="/crear/token" method="post">
+                            <form action="/token/crear" method="post">
                                 <button class="btn btn-outline-info" type="submit">Crear token</button>
                         @else
-                            <form action="/borrar/token" method="post">
+                            <div class="row">
+                                <div class="col">
+                                    <a class="mb-3 btn btn-outline-info" href="/token/get">Ver token</a>
+                                </div>
+                            </div>
+                            <form action="/token/borrar" method="post">
                                 <button class="btn btn-outline-info" type="submit">Borrar token</button>
                         @endif
                         @csrf

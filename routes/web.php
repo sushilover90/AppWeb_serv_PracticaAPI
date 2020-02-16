@@ -16,7 +16,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/crear/token','HomeController@token')->middleware('auth');
-Route::post('/borrar/token','HomeController@borrarToken')->middleware('auth');
+Route::post('/token/crear','HomeController@token')->middleware('auth');
+Route::post('/token/borrar','HomeController@borrarToken')->middleware('auth');
 Route::get('/board','HomeController@board')->middleware('auth');
-Route::post('/summoner','HomeController@summoner')->middleware('auth');
+Route::post('/summoner','LeagueAPI@getSummonerInfo')->middleware('auth');
+Route::get('/token/get','HomeController@getToken')->middleware('auth');
+Route::get('/riottoken','HomeController@getRiotToken')->middleware('auth');
+Route::post('/riottoken','HomeController@setRiotToken')->middleware('auth');
