@@ -1,39 +1,64 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" align="center">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
+                <div class="card" id="into">
+                    <div class="card-header" id="into" >Menú</div>
 
-                    <div class="card-body">
+                    <div class="card-body" id="into">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
                             </div>
                         @endif
-
-                            <a class="btn btn-outline-info mb-3" href="/board">Board</a>
-                            <select name="opciones" id="opciones">
-                                <option value="1"><a href="/board">Info del summoner</a></option>
-                            </select>
-
+                        <div>
+                            <a class="btn btn-outline-info mb-3" href="/board" id="fond">Información General del Usuario</a>
+                        </div>
                         @if(Auth::user()->api_token==null)
                             <form action="/token/crear" method="post">
-                                <button class="btn btn-outline-info" type="submit">Crear token</button>
+                                <div>
+                                <button class="btn btn-outline-info" type="submit" id="fond">Crear token</button>
+                                </div>
                         @else
                             <div class="row">
                                 <div class="col">
-                                    <a class="mb-3 btn btn-outline-info" href="/token/get">Ver token</a>
+                                    <a class="mb-3 btn btn-outline-info" href="/token/get" id="fond">Ver token</a>
                                 </div>
                             </div>
                             <form action="/token/borrar" method="post">
-                                <button class="btn btn-outline-info" type="submit">Borrar token</button>
+                                <div>
+                                    <button class="btn btn-outline-info" type="submit" id="fond">Borrar token</button>
+                                </div>
                         @endif
                         @csrf
                             </form>
+
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" align="center">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card" id="into">
+                    <div class="card-header" id="into" >¡Importante!</div>
+                        <div class="card-body" id="into">
+                            <div class="row">
+                                <div class="col">
+                                    <p id="into">Para poder consumir nuestro servicio necesitas tener una cuenta en Riot y guardar la Token para gestionar estadísticas</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-outline-info" id="fond"onclick="window.location.href = 'https://auth.riotgames.com/login#client_id=riot-developer-portal&redirect_uri=https%3A%2F%2Fdeveloper.riotgames.com%2Foauth2-callback&response_type=code&scope=openid%20email%20summoner'";>Generar Riot Token</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
                 </div>
             </div>
         </div>

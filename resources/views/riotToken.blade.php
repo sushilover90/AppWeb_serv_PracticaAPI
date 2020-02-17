@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card" id="into">
                     <div class="card-header">Tu riot token actual, si ya caducó, ingresa uno nuevo.</div>
 
                     <div class="card-body">
@@ -23,7 +23,7 @@
 
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-outline-info" href="/home">Volver a inicio</a>
+                        <a class="btn btn-outline-info" href="/home" id="fond">Volver a inicio</a>
                     </div>
                 </div>
             </div>
