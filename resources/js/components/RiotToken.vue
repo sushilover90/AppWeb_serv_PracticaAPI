@@ -62,9 +62,9 @@
                         'Petición exitosa' +
                         '</div>');
                 }).catch(function (response){
-                    console.log(response.error)
+                    console.log(response)
                     $('#alert').append('<div class="alert alert-danger" role="alert">\n' +
-                        1 +
+                        'Token inválido, vacio o no se pudo procesar la petición. Verifica y vuelve a intentar, de lo contrario, intenta mas tarde.' +
                         '</div>');
                 });
                 // this.json_summoner.name="2323";

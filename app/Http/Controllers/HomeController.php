@@ -70,14 +70,27 @@ class HomeController extends Controller
             ['datos'=>json_encode(
                 ['user_id'=>$user_id,
                     'token_actual'=>$token_actual
-                ]
-            )
+                ])
             ]
         );
     }
 
     public function setRiotToken(Request $request)
     {
+
+        //RGAPI-ec4280b8-c049-400b-886f-3056f15aa57c
+
+        $token_check = str_split($request->data['token']);
+        $token_start = ['R','G','A','P','I','-'];
+
+        for($i = 0;$i<6;$i++)
+        {
+            if(!($token_check[$i]===$token_start[$i]))
+            {
+                return response()->json(['error'=>'Token invalido o vacio'],409);
+            }
+        }
+
         if(!$request->data['token']==''&&!$request->data['token']==null) {
             $token = Token::createToken($request);
 
