@@ -78,7 +78,11 @@ class LeagueAPI extends Controller
 
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$id/by-champion/$champId", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$id/by-champion/$champId", [
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ]);
 
         $champion = $response->getBody();
 
@@ -92,7 +96,11 @@ class LeagueAPI extends Controller
     {
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/$id", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/$id",[
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ] );
 
         $positionRanked = $response->getBody();
 
@@ -108,7 +116,11 @@ class LeagueAPI extends Controller
     {
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", [
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ]);
 
         $Historial = $response->getBody();
 
