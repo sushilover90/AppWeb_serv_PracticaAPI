@@ -21,7 +21,10 @@
         </div>
         <div class="row">
             <div class="col-lg-2 col-12">
-                <input class="mt-2 btn btn-block btn-outline-info" v-on:click="Enviar" id="btnEnviarPeticion" type="button" value="Enviar">
+                <input style="display: inline-block;" class="mt-2 btn btn-block btn-outline-info" v-on:click="Enviar" id="btnEnviarPeticion" type="button" value="Enviar">
+            </div>
+            <div class="col-lg-3 col-12" id="verMasDetalles">
+
             </div>
         </div>
         <div class="row">
@@ -58,6 +61,7 @@
             Enviar:function () {
                 let self = this;
                 $('#alert').empty();
+                $('#verMasDetalles').empty();
                 axios.post('/summoner',{
                     data:{
                         summoner_name : self.summoner_name,
@@ -72,6 +76,7 @@
                         self.json_summoner.profileIconId=response.data.profileIconId;
                         self.json_summoner.revisionDate=response.data.revisionDate;
                         self.json_summoner.summonerLevel=response.data.summonerLevel;
+                        $('#verMasDetalles').append('<a href="/profile/'+self.json_summoner.name+'" class="mt-2 btn btn-block btn-outline-info">Ver mas detalles</a>');
                         $('#alert').append('<div class="alert alert-primary" role="alert">\n' +
                         'Petición exitosa' +
                         '</div>');

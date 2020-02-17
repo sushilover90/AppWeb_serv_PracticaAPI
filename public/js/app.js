@@ -1984,63 +1984,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['get_icon', 'get_favchampions'],
+  props: ['get_icon', 'get_favchampions', 'get_user', 'get_ranked'],
   data: function data() {
     return {
       icon: "",
-      summonerName: "",
       Summoner: {
         id: null,
         accountId: null,
         puuid: null,
-        name: "",
+        name: null,
         profileIconId: null,
         revisionDate: null,
         summonerLevel: null
       },
-      favchampions: [],
+      Ranked: {
+        leagueId: null,
+        queueType: null,
+        tier: "PROVISIONAL",
+        rank: "v",
+        summonerId: null,
+        summonerName: null,
+        leaguePoints: 0,
+        wins: 0,
+        losses: 0,
+        veteran: null,
+        inactive: null,
+        freshBlood: null,
+        hotStreak: null
+      },
       favchampsnames: []
     };
   },
   created: function created() {
+    this.Summoner = JSON.parse(this.get_user);
     this.icon = this.get_icon;
-    this.favchampions = JSON.parse(this.get_favchampions);
-    this.summonerName = this.icon.split("/").pop();
-    this.summonerName = this.summonerName.replace(".png", "");
-    this.summonerName = this.summonerName.replace(" ", "");
-    this.Summoner.name = this.SummonerName;
-  },
-  mounted: function mounted() {
-    this.getInfo();
-    this.getChampName();
-  },
-  methods: {
-    getInfo: function getInfo() {
-      var self = this;
-      axios.get("/api/summoner/".concat(this.Summoner.name)).then(function (response) {
-        self.Summoner.id = response.data.id;
-        self.Summoner.accountId = response.data.accountId;
-        self.Summoner.puuid = response.data.puuid;
-        self.Summoner.name = self.summonerName;
-        self.Summoner.profileIconId = response.data.profileIconId;
-        self.Summoner.revisionDate = response.data.revisionDate;
-        self.Summoner.summonerLevel = response.data.summonerLevel;
-      });
-    },
-    getChampName: function getChampName() {
-      var self = this;
+    this.favchampsnames = JSON.parse(this.get_favchampions);
 
-      for (var index = 0; index < 3; index++) {
-        var champid = self.favchampions[index];
-        axios.get("/api/DDragon/".concat(champid['championId'])).then(function (response) {
-          self.favchampsnames.push(response.data);
-        });
-      }
-    },
-    getRankedPosition: function getRankedPosition() {
-      var self = this;
-      axios.get("/api/RankedPos/".concat(this.Summoner.id)).then(function (response) {});
+    if (JSON.parse(this.get_ranked) != 'U') {
+      this.Ranked = JSON.parse(this.get_ranked);
     }
   }
 });
@@ -2118,8 +2110,8 @@ __webpack_require__.r(__webpack_exports__);
         self.riot_token = self.new_riot_token;
         $('#alert').append('<div class="alert alert-primary" role="alert">\n' + 'Petición exitosa' + '</div>');
       })["catch"](function (response) {
-        console.log(response.error);
-        $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 1 + '</div>');
+        console.log(response);
+        $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 'Token inválido, vacio o no se pudo procesar la petición. Verifica y vuelve a intentar, de lo contrario, intenta mas tarde.' + '</div>');
       }); // this.json_summoner.name="2323";
       // this.summoner_name = "1";
     }
@@ -2137,6 +2129,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2195,6 +2190,7 @@ __webpack_require__.r(__webpack_exports__);
     Enviar: function Enviar() {
       var self = this;
       $('#alert').empty();
+      $('#verMasDetalles').empty();
       axios.post('/summoner', {
         data: {
           summoner_name: self.summoner_name
@@ -2210,6 +2206,7 @@ __webpack_require__.r(__webpack_exports__);
         self.json_summoner.profileIconId = response.data.profileIconId;
         self.json_summoner.revisionDate = response.data.revisionDate;
         self.json_summoner.summonerLevel = response.data.summonerLevel;
+        $('#verMasDetalles').append('<a href="/profile/' + self.json_summoner.name + '" class="mt-2 btn btn-block btn-outline-info">Ver mas detalles</a>');
         $('#alert').append('<div class="alert alert-primary" role="alert">\n' + 'Petición exitosa' + '</div>');
       })["catch"](function (response) {
         $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 'Petición no exitosa, verifica bien tu summoner name y vuelve a intentarlo, de lo contrario, intenta más tarde.' + '</div>');
@@ -6764,7 +6761,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3 {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n}\nh5 {\n    color: rgb(14, 31, 90);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n", ""]);
+exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3, span {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n}\nh5 {\n    color: rgb(14, 31, 90);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n#wl {\n    background: rgba(180, 173, 39, 0.445);\n    color: rgb(255, 255, 255);\n    border-radius: 5em;\n}\n", ""]);
 
 // exports
 
@@ -38401,7 +38398,29 @@ var render = function() {
           _c("h1", [_vm._v(_vm._s(_vm.Summoner.name))])
         ]),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "col-sm-3 mt-3 text-center" }, [
+          _c("img", {
+            staticClass: "mx-auto rounded-circle img-fluid d-block",
+            staticStyle: { width: "9em", height: "9em" },
+            attrs: {
+              src: "/images/emblems/Emblem_" + _vm.Ranked.tier + ".png",
+              alt: ""
+            }
+          }),
+          _vm._v(" "),
+          _c("h3", [_vm._v(_vm._s(_vm.Ranked.leaguePoints) + " Puntos Liga")]),
+          _vm._v(" "),
+          _c("h1", [_vm._v(_vm._s(_vm.Ranked.tier))]),
+          _vm._v(" "),
+          _c("p", { attrs: { id: "wl" } }, [
+            _vm._v(
+              _vm._s(_vm.Ranked.wins) +
+                " Victorias, " +
+                _vm._s(_vm.Ranked.losses) +
+                " Derrotas"
+            )
+          ])
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row justify-content-center" }),
@@ -38435,9 +38454,12 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("h5", { staticClass: "card-title" }, [
-                  _vm._v(
-                    "Maestria " + _vm._s(_vm.favchampions[index].championLevel)
-                  )
+                  _vm._v("Maestria " + _vm._s(champ.championLevel))
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("span", [_vm._v(_vm._s(champ.championPoints) + " ")]),
+                  _vm._v(" puntos de maestria")
                 ]),
                 _vm._v(" "),
                 _c("p", { staticClass: "card-text" }, [
@@ -38449,7 +38471,9 @@ var render = function() {
         }),
         0
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _vm._m(0)
   ])
 }
 var staticRenderFns = [
@@ -38457,16 +38481,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-3 mt-3 text-center" }, [
-      _c("img", {
-        staticClass: "mx-auto rounded-circle img-fluid img-thumbnail d-block",
-        staticStyle: { width: "9em", height: "9em" },
-        attrs: { src: "/images/emblems/Emblem_Challenger.png", alt: "" }
-      }),
-      _vm._v(" "),
-      _c("h3", [_vm._v("500 PL")]),
-      _vm._v(" "),
-      _c("h1", [_vm._v("Retador")])
+    return _c("div", { attrs: { id: "matchs" } }, [
+      _c("div", { staticClass: "row justify-content-center" }, [_c("div")])
     ])
   }
 ]
@@ -38678,10 +38694,16 @@ var render = function() {
       _c("div", { staticClass: "col-lg-2 col-12" }, [
         _c("input", {
           staticClass: "mt-2 btn btn-block btn-outline-info",
+          staticStyle: { display: "inline-block" },
           attrs: { id: "btnEnviarPeticion", type: "button", value: "Enviar" },
           on: { click: _vm.Enviar }
         })
-      ])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "col-lg-3 col-12",
+        attrs: { id: "verMasDetalles" }
+      })
     ]),
     _vm._v(" "),
     _vm._m(0)

@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use App\Champ;
+use Symfony\Component\VarDumper\VarDumper;
 
 class LeagueAPI extends Controller
 {
@@ -24,12 +25,23 @@ class LeagueAPI extends Controller
         ]);
 
         $user = $response->getBody();
-        return $user;
+
+        if ($user != null){
+
+            return $user;
+
+        }
+        return back();
     }
-    //Regresa una URL de la imagen de perfil de la cuenta
+
     public static function getSummonerAvatar(Request $request)
     {
-        $url = "http://avatar.leagueoflegends.com/la1/".$request->segment(2).".png";
+        $url = "http://avatar.leagueoflegends.com/la1/";
+
+        $url .= $request->segment(2);
+
+        $url .= ".png";
+
         return $url;
     }
 
@@ -73,42 +85,40 @@ class LeagueAPI extends Controller
         return $champions;
     }
 
-    public static function getOneChamp(string $id, int $champId)
-    {
-
-        $client = new Client(self::guzzleClientConfiguration());
-
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$id/by-champion/$champId", self::header());
-
-        $champion = $response->getBody();
-
-        $champion = json_decode($champion, true);
-
-        return $champion;
-    }
-
-    //Consigue el posicionamiento en partidas igualadas del usuario
-    public static function getPositionRanked(String $id)
+    public static function getPositionRanked(Request $request, String $id)
     {
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/$id", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/$id",[
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ] );
 
         $positionRanked = $response->getBody();
 
-        if ($positionRanked != null){
+        $positionRanked = json_decode($positionRanked, true);
 
-            $positionRanked = json_decode($positionRanked, true);
 
-            return $positionRanked;
+        if (empty($positionRanked)){
+
+            return "Unranked";
+
         }
+
+        return $positionRanked;
+
     }
-    //Usar AccountID
-    public static function getMatchHistory(String $Accountid)
+
+    public static function getMatchHistory(Request $request, String $Accountid)
     {
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", [
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ]);
 
         $Historial = $response->getBody();
 

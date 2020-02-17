@@ -41,7 +41,13 @@ class User extends Authenticatable
 
     public function getTokens()
     {
-        return $token = Token::getUserTokens($this->id,1)[0]->key;
+        try{
+            return $token = Token::getUserTokens($this->id,1)[0]->key;
+        }catch (\ErrorException $e)
+        {
+            return $token[0] = 'No tienes un token riot registrado';
+        }
+
     }
 
 }
