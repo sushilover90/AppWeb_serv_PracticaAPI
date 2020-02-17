@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card" id="into">
-                    <div class="card-header">Tu riot token actual, si ya caducó, ingresa uno nuevo.</div>
+                    <div class="card-header; text-center" id="header">Tu riot token actual, si ya caducó, ingresa uno nuevo.</div>
 
                     <div class="card-body">
                         @if (session('status'))

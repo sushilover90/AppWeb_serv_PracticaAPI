@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card" id="into">
-                    <div class="card-header" id="into" >Menú</div>
+                    <div class="card-header" id="header" >Menú</div>
 
                     <div class="card-body" id="into">
                         @if (session('status'))

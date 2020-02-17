@@ -38394,7 +38394,13 @@ var render = function() {
           _c("img", {
             staticClass:
               "rounded-circle mx-auto img-fluid img-thumbnail d-block",
-            staticStyle: { width: "9em", height: "9em" },
+            staticStyle: {
+              width: "9em",
+              height: "9em",
+              "border-color": "rgb(182,149,41)",
+              color: "rgb(182,149,41)",
+              background: "rgb(10, 20, 37)"
+            },
             attrs: {
               src: _vm.icon,
               alt: "Profile Icon",
@@ -38433,10 +38439,19 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { attrs: { id: "champs" } }, [
-      _c("h2", { staticStyle: { padding: "1em" } }, [
-        _vm._v("Campeones favoritos")
-      ]),
+    _c("div", { staticClass: "text-center", attrs: { id: "champs" } }, [
+      _c(
+        "h2",
+        {
+          staticStyle: {
+            padding: "1em",
+            "border-color": "rgb(182,149,41)",
+            color: "rgb(182,149,41)",
+            background: "rgb(10, 20, 37)"
+          }
+        },
+        [_vm._v("Campeones favoritos")]
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -38447,7 +38462,12 @@ var render = function() {
             {
               key: index,
               staticClass: "card mx-3",
-              staticStyle: { width: "21rem", background: "rgb(10, 20, 37)" }
+              staticStyle: {
+                width: "21rem",
+                background: "rgb(10, 20, 37)",
+                "border-color": "rgb(182,149,41)",
+                color: "rgb(182,149,41)"
+              }
             },
             [
               _c("img", {
@@ -38462,16 +38482,16 @@ var render = function() {
                   _c("h4", [_vm._v(" " + _vm._s(champ.title))])
                 ]),
                 _vm._v(" "),
-                _c("h3", { staticClass: "card-title" }, [
+                _c("h3", { staticClass: "card-title; text-center" }, [
                   _vm._v("Maestria " + _vm._s(champ.championLevel))
                 ]),
                 _vm._v(" "),
-                _c("p", [
+                _c("p", { staticClass: "text-center" }, [
                   _c("span", [_vm._v(_vm._s(champ.championPoints) + " ")]),
                   _vm._v(" puntos de maestria")
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
+                _c("p", { staticClass: "card-text; text-center" }, [
                   _vm._v(_vm._s(champ.details))
                 ])
               ])
@@ -38484,11 +38504,20 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "mt-3", attrs: { id: "matchs" } },
+      {
+        staticClass: "mt-3",
+        staticStyle: {
+          "border-color": "rgb(182,149,41)",
+          color: "rgb(182,149,41)"
+        },
+        attrs: { id: "matchs" }
+      },
       [
-        _c("h2", { staticStyle: { padding: "1em" } }, [
-          _vm._v("Historial de partidas recientes")
-        ]),
+        _c(
+          "h2",
+          { staticClass: "text-center", staticStyle: { padding: "1em" } },
+          [_vm._v("Historial de partidas recientes")]
+        ),
         _vm._v(" "),
         _vm._l(_vm.Matchs, function(match, index) {
           return _c(
@@ -38496,13 +38525,23 @@ var render = function() {
             {
               key: index,
               staticClass: "row justify-content-start my-3 p-3",
-              staticStyle: { background: "rgb(10, 20, 37)" }
+              staticStyle: {
+                background: "rgb(10, 20, 37)",
+                "border-color": "rgb(182,149,41)",
+                color: "rgb(182,149,41)"
+              }
             },
             [
               _c("div", { staticClass: "form-inline" }, [
                 _c("img", {
                   staticClass: "mx-auto img-fluid img-thumbnail",
-                  staticStyle: { width: "5em", height: "5em" },
+                  staticStyle: {
+                    width: "5em",
+                    height: "5em",
+                    background: "rgb(10, 20, 37)",
+                    "border-color": "rgb(182,149,41)",
+                    color: "rgb(182,149,41)"
+                  },
                   attrs: {
                     src: "/images/littlei/" + match.champion + "_0.JPG",
                     alt: "CHAMPION ICON"
@@ -51363,8 +51402,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! Y:\escuela\,utt\,4to_cuatrimestre\appweb_servicios\nuevo_api\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! Y:\escuela\,utt\,4to_cuatrimestre\appweb_servicios\nuevo_api\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\guill\Desktop\APIPesada\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\guill\Desktop\APIPesada\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

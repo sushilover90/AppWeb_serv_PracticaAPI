@@ -22,10 +22,14 @@
         #fond{ background: rgb(14, 36, 71);
             border-color: rgb(182,149,41);
             color: rgb(182,149,41); }
+        #fond2{background: rgb(209, 210, 211);
+            border-color: rgb(182,149,41);
+            color: rgb(182,149,41); }
         #into{ background: rgb(10, 20, 37);
             border-color:rgb(182,149,41);
             color: rgb(182,149,41); }
         #color{color: rgb(182,149,41); }
+        #header{color:rgb(114, 94, 27); text-shadow:  2px 2px 10px rgb(67, 71, 0); background: rgb(231, 231, 231);}
     </style>
 </head>
 <body id="fond">
