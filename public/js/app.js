@@ -2110,8 +2110,8 @@ __webpack_require__.r(__webpack_exports__);
         self.riot_token = self.new_riot_token;
         $('#alert').append('<div class="alert alert-primary" role="alert">\n' + 'Petición exitosa' + '</div>');
       })["catch"](function (response) {
-        console.log(response.error);
-        $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 1 + '</div>');
+        console.log(response);
+        $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 'Token inválido, vacio o no se pudo procesar la petición. Verifica y vuelve a intentar, de lo contrario, intenta mas tarde.' + '</div>');
       }); // this.json_summoner.name="2323";
       // this.summoner_name = "1";
     }
@@ -2129,6 +2129,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2187,6 +2190,7 @@ __webpack_require__.r(__webpack_exports__);
     Enviar: function Enviar() {
       var self = this;
       $('#alert').empty();
+      $('#verMasDetalles').empty();
       axios.post('/summoner', {
         data: {
           summoner_name: self.summoner_name
@@ -2202,6 +2206,7 @@ __webpack_require__.r(__webpack_exports__);
         self.json_summoner.profileIconId = response.data.profileIconId;
         self.json_summoner.revisionDate = response.data.revisionDate;
         self.json_summoner.summonerLevel = response.data.summonerLevel;
+        $('#verMasDetalles').append('<a href="/profile/' + self.json_summoner.name + '" class="mt-2 btn btn-block btn-outline-info">Ver mas detalles</a>');
         $('#alert').append('<div class="alert alert-primary" role="alert">\n' + 'Petición exitosa' + '</div>');
       })["catch"](function (response) {
         $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 'Petición no exitosa, verifica bien tu summoner name y vuelve a intentarlo, de lo contrario, intenta más tarde.' + '</div>');
@@ -38689,10 +38694,16 @@ var render = function() {
       _c("div", { staticClass: "col-lg-2 col-12" }, [
         _c("input", {
           staticClass: "mt-2 btn btn-block btn-outline-info",
+          staticStyle: { display: "inline-block" },
           attrs: { id: "btnEnviarPeticion", type: "button", value: "Enviar" },
           on: { click: _vm.Enviar }
         })
-      ])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "col-lg-3 col-12",
+        attrs: { id: "verMasDetalles" }
+      })
     ]),
     _vm._v(" "),
     _vm._m(0)
@@ -51306,13 +51317,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-__webpack_require__(/*! C:\Users\exper\Documents\4to Cuatri\Trabajo2\AppWeb_serv_PracticaAPI\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\exper\Documents\4to Cuatri\Trabajo2\AppWeb_serv_PracticaAPI\resources\sass\app.scss */"./resources/sass/app.scss");
-=======
-__webpack_require__(/*! C:\Users\guill\Desktop\APIPesada\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\guill\Desktop\APIPesada\resources\sass\app.scss */"./resources/sass/app.scss");
->>>>>>> Anioah
+__webpack_require__(/*! Y:\escuela\utt\4to_cuatrimestre\appweb_servicios\nuevo_api\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! Y:\escuela\utt\4to_cuatrimestre\appweb_servicios\nuevo_api\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
