@@ -39,8 +39,7 @@ class HomeController extends Controller
             'api_token' => $hashed_token,
         ])->save();
 
-        return view('token',['token' => $hashed_token]);
-
+        return view('token', ['token' => $hashed_token]);
     }
 
     public function borrarToken(Request $request)
@@ -55,8 +54,7 @@ class HomeController extends Controller
     public function getToken(Request $request)
     {
 
-        return view('getToken',['token'=>$request->user()->api_token]);
-
+        return view('getToken', ['token' => $request->user()->api_token]);
     }
 
     public function getRiotToken(Request $request)
@@ -77,9 +75,6 @@ class HomeController extends Controller
 
     public function setRiotToken(Request $request)
     {
-
-        //RGAPI-ec4280b8-c049-400b-886f-3056f15aa57c
-
         $token_check = str_split($request->data['token']);
         $token_start = ['R','G','A','P','I','-'];
 
@@ -98,24 +93,51 @@ class HomeController extends Controller
 
             return Token::saveToken($token, $user_id, $request);
         }
-        return response()->json(['error'=>'Token inválido o vacío.'],409);
-
+        return response()->json(['error' => 'Token inválido o vacío.'], 409);
     }
 
-    public function profile(Request $request){
+    public function profile(Request $request)
+    {
+
 
         $icon = LeagueAPI::getSummonerAvatar($request);
-        $request->merge(['data'=>['summoner_name'=>$request->segment(2)]]);
+
+        $request->merge(['data' => ['summoner_name' => $request->segment(2)]]);
+
         $user = LeagueAPI::getSummonerInfo($request);
-        $user = json_decode($user,true);
+
+        $user = json_decode($user, true);
+
         $id = $user['id'];
 
-        return view('profile', ['icon' => $icon, 'fav' => LeagueAPI::getChampionMastery($request, $id)]);
+        $accountId = $user['accountId'];
+
+        $fav_champs = LeagueAPI::getChampionMastery($request, $id);
+
+        $fav_champs = json_decode($fav_champs, true);
+
+        $newfav_champs = [];
+
+        for ($i = 0; $i < 3; $i++) {
+            $key = $fav_champs[$i];
+            $champ = LeagueAPI::getDDragon($key['championId']);
+            $champ['championLevel'] = $key['championLevel'];
+            $champ['championPoints'] = $key['championPoints'];
+            $newfav_champs[] = $champ;
+        }
+
+        $ranked = LeagueAPI::getPositionRanked($request, $id);
+
+        return view('profile', [
+            'icon' => $icon,
+            'fav' => json_encode($newfav_champs),
+            'user' => json_encode($user),
+            'ranked' => json_encode($ranked[0]),
+        ]);
     }
 
     public function board(Request $request)
     {
         return view('board');
     }
-
 }

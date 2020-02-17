@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="px-5">
-        <profile-component get_icon="{{ $icon }}" get_favchampions="{{ $fav }}"/>
+        <profile-component get_user="{{ $user }}"
+            get_icon="{{ $icon }}"
+                get_favchampions="{{ $fav }}"
+                    get_ranked="{{ $ranked }}"/>
     </div>
 @endsection

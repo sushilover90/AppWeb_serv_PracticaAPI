@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
 use App\Champ;
+use Symfony\Component\VarDumper\VarDumper;
 
 class LeagueAPI extends Controller
 {
@@ -24,12 +25,23 @@ class LeagueAPI extends Controller
         ]);
 
         $user = $response->getBody();
-        return $user;
+
+        if ($user != null){
+
+            return $user;
+
+        }
+        return back();
     }
-    //Regresa una URL de la imagen de perfil de la cuenta
+
     public static function getSummonerAvatar(Request $request)
     {
-        $url = "http://avatar.leagueoflegends.com/la1/".$request->segment(2).".png";
+        $url = "http://avatar.leagueoflegends.com/la1/";
+
+        $url .= $request->segment(2);
+
+        $url .= ".png";
+
         return $url;
     }
 
@@ -85,12 +97,17 @@ class LeagueAPI extends Controller
 
         $positionRanked = $response->getBody();
 
-        if ($positionRanked != null){
+        $positionRanked = json_decode($positionRanked, true);
 
-            $positionRanked = json_decode($positionRanked, true);
 
-            return $positionRanked;
+        if (empty($positionRanked)){
+
+            return "Unranked";
+
         }
+
+        return $positionRanked;
+
     }
 
     public static function getMatchHistory(Request $request, String $Accountid)

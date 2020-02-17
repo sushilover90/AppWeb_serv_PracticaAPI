@@ -9,10 +9,11 @@
                         <h1>{{ Summoner.name }}</h1>
                     </div>
                     <div class="col-sm-3 mt-3 text-center">
-                        <img src="/images/emblems/Emblem_Challenger.png" class="mx-auto rounded-circle img-fluid img-thumbnail d-block"
+                        <img :src="'/images/emblems/Emblem_' +  Ranked.tier + '.png'" class="mx-auto rounded-circle img-fluid d-block"
                         style="width: 9em; height: 9em;" alt="">
-                        <h3>500 PL</h3>
-                        <h1>Retador</h1>
+                        <h3>{{ Ranked.leaguePoints }} Puntos Liga</h3>
+                        <h1>{{ Ranked.tier}}</h1>
+                        <p id="wl">{{ Ranked.wins }} Victorias, {{ Ranked.losses }} Derrotas</p>
                     </div>
 
                 </div>
@@ -32,9 +33,18 @@
                             <h4> {{ champ.title }}</h4>
                         </div>
 
-                        <h5 class="card-title">Maestria {{ favchampions[index].championLevel }}</h5>
+                        <h5 class="card-title">Maestria {{ champ.championLevel }}</h5>
+                        <p> <span>{{ champ.championPoints}} </span> puntos de maestria</p>
                         <p class="card-text">{{ champ.details }}</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="matchs">
+            <div class="row justify-content-center">
+                <div>
+
                 </div>
             </div>
         </div>
@@ -43,75 +53,47 @@
 
 <script>
 export default {
-    props: ['get_icon', 'get_favchampions'],
+    props: ['get_icon', 'get_favchampions', 'get_user', 'get_ranked'],
 
     data(){
         return{
             icon: "",
-            summonerName: "",
             Summoner:{
                 id: null,
                 accountId: null,
                 puuid: null,
-                name:"",
+                name: null,
                 profileIconId: null,
                 revisionDate: null,
                 summonerLevel: null,
             },
-            favchampions: [],
+            Ranked:{
+                leagueId: null,
+                queueType: null,
+                tier: "PROVISIONAL",
+                rank: "v",
+                summonerId: null,
+                summonerName: null,
+                leaguePoints: 0,
+                wins: 0,
+                losses: 0,
+                veteran: null,
+                inactive: null,
+                freshBlood: null,
+                hotStreak: null,
+            },
             favchampsnames: [],
         }
     },
 
     created(){
+        this.Summoner = JSON.parse(this.get_user);
         this.icon = this.get_icon;
-        this.favchampions = JSON.parse(this.get_favchampions);
-        this.summonerName = this.icon.split("/").pop();
-        this.summonerName = this.summonerName.replace(".png", "")
-        this.summonerName = this.summonerName.replace(" ", "");
-        this.Summoner.name = this.SummonerName;
-    },
-
-    mounted(){
-        this.getInfo();
-        this.getChampName();
-    },
-
-    methods:{
-        getInfo:function(){
-            let self = this;
-            axios.get(`/api/summoner/${this.Summoner.name}`)
-            .then(function (response) {
-                self.Summoner.id             = response.data.id;
-                self.Summoner.accountId      = response.data.accountId;
-                self.Summoner.puuid          = response.data.puuid;
-                self.Summoner.name           = self.summonerName;
-                self.Summoner.profileIconId  = response.data.profileIconId;
-                self.Summoner.revisionDate   = response.data.revisionDate;
-                self.Summoner.summonerLevel  = response.data.summonerLevel;
-            });
-        },
-
-        getChampName:function() {
-            let self = this;
-            for (let index = 0; index < 3; index++) {
-                var champid = self.favchampions[index];
-                axios.get(`/api/DDragon/${champid['championId']}`)
-                .then(function (response){
-                    self.favchampsnames.push(response.data);
-                });
-            }
-        },
-
-        getRankedPosition:function(){
-            let self = this;
-            axios.get(`/api/RankedPos/${this.Summoner.id}`)
-            .then(function (response){
-
-            });
+        this.favchampsnames  = JSON.parse(this.get_favchampions);
+        if (JSON.parse(this.get_ranked) != 'U') {
+           this.Ranked  = JSON.parse(this.get_ranked);
         }
-    }
-
+    },
 }
 </script>
 
@@ -119,12 +101,17 @@ export default {
     #banner{
         background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;
     }
-    h1, h3 {
+    h1, h3, span {
         color: rgb(182, 149, 41);
         text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);
     }
     h5 {
         color: rgb(14, 31, 90);
         text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);
+    }
+    #wl {
+        background: rgba(180, 173, 39, 0.445);
+        color: rgb(255, 255, 255);
+        border-radius: 5em;
     }
 </style>
