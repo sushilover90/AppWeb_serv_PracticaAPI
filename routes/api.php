@@ -24,4 +24,5 @@ Route::group(['middleware'=>['auth:api']],function (){
     Route::get('/champion-image/{id}', 'LeagueAPI@getChampImage');
     Route::get('/DDragon/{id}', 'LeagueAPI@getDDragon');
     Route::get('/RankedPos/{id}', 'LeagueAPI@getPositionRanked');
+    Route::post('/{name}', 'LeagueAPI@getSummonerAvatar');
 });
