@@ -25,7 +25,7 @@
 
         <div id="champs">
             <div class="row justify-content-center">
-                <div v-for="(champ, index) in favchampsnames" :key="index" class="card mx-3" style="width: 21rem;">
+                <div v-for="(champ, index) in favchampsnames" :key="index" class="card mx-3" style="width: 21rem; background: rgb(10, 20, 37); border-color: rgb(182,149,41); color: rgb(182,149,41);">
                     <img :src="'/images/' + champ.name + '_0.jpg'" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="text-center">
@@ -106,7 +106,7 @@ export default {
         text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);
     }
     h5 {
-        color: rgb(14, 31, 90);
+        color: rgb(255, 196, 0);
         text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);
     }
     #wl {

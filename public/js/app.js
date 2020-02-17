@@ -6761,7 +6761,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3, span {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n}\nh5 {\n    color: rgb(14, 31, 90);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n#wl {\n    background: rgba(180, 173, 39, 0.445);\n    color: rgb(255, 255, 255);\n    border-radius: 5em;\n}\n", ""]);
+exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3, span {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n}\nh5 {\n    color: rgb(255, 196, 0);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n#wl {\n    background: rgba(180, 173, 39, 0.445);\n    color: rgb(255, 255, 255);\n    border-radius: 5em;\n}\n", ""]);
 
 // exports
 
@@ -38438,7 +38438,12 @@ var render = function() {
             {
               key: index,
               staticClass: "card mx-3",
-              staticStyle: { width: "21rem" }
+              staticStyle: {
+                width: "21rem",
+                background: "rgb(10, 20, 37)",
+                "border-color": "rgb(182,149,41)",
+                color: "rgb(182,149,41)"
+              }
             },
             [
               _c("img", {
