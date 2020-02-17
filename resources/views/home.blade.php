@@ -34,11 +34,6 @@
                         @endif
                         @csrf
                             </form>
-                    <div class="mt-3 row">
-                        <div class="col-12">
-                            <a href="/riottoken" id="fond" class="btn btn-outline-info">Ver Riot token</a>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -49,11 +44,14 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card" id="into">
-                    <div class="card-header" id="into" >¡Importante!</div>
+                    <div class="card-header" style="background: rgb(14, 36, 71); border-color: rgb(182,149,41); color: rgb(255, 196, 0);" ></div>
                         <div class="card-body" id="into">
                             <div class="row">
                                 <div class="col">
-                                    <p id="into">Para poder consumir nuestro servicio necesitas tener una cuenta en Riot y guardar la Token para gestionar estadísticas</p>
+                                    <div class="card-header" style="background: rgb(10, 20, 37); border-color: rgb(10, 20, 37); color: rgb(255, 196, 0);">¡Importante!</div>
+                                    <p id="into">Para poder hacer uso de nuestro servicio necesitas tener una cuenta en Riot
+                                        y generar una token valida, si ya tienes una no olvides verificar su vigencia
+                                    </p>
                                 </div>
                             </div>
                             <div class="row">
@@ -61,6 +59,12 @@
                                     <button class="btn btn-outline-info" id="fond"onclick="window.location.href = 'https://auth.riotgames.com/login#client_id=riot-developer-portal&redirect_uri=https%3A%2F%2Fdeveloper.riotgames.com%2Foauth2-callback&response_type=code&scope=openid%20email%20summoner'";>Generar Riot Token</button>
                                 </div>
                             </div>
+                            <div class="mt-3 row">
+                                <div class="col-12">
+                                    <a href="/riottoken" id="fond" class="btn btn-outline-info">Ver Riot token</a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
