@@ -34,7 +34,11 @@
                         @endif
                         @csrf
                             </form>
-
+                    <div class="mt-3 row">
+                        <div class="col-12">
+                            <a href="/riottoken" id="fond" class="btn btn-outline-info">Ver Riot token</a>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -58,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>     
+                    </div>
                 </div>
             </div>
         </div>
