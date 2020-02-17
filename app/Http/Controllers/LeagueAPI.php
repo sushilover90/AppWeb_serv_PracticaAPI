@@ -73,26 +73,15 @@ class LeagueAPI extends Controller
         return $champions;
     }
 
-    public static function getOneChamp(string $id, int $champId)
-    {
-
-        $client = new Client(self::guzzleClientConfiguration());
-
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$id/by-champion/$champId", self::header());
-
-        $champion = $response->getBody();
-
-        $champion = json_decode($champion, true);
-
-        return $champion;
-    }
-
-    //Consigue el posicionamiento en partidas igualadas del usuario
-    public static function getPositionRanked(String $id)
+    public static function getPositionRanked(Request $request, String $id)
     {
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/$id", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/league/v4/entries/by-summoner/$id",[
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ] );
 
         $positionRanked = $response->getBody();
 
@@ -103,12 +92,16 @@ class LeagueAPI extends Controller
             return $positionRanked;
         }
     }
-    //Usar AccountID
-    public static function getMatchHistory(String $Accountid)
+
+    public static function getMatchHistory(Request $request, String $Accountid)
     {
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", [
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ]);
 
         $Historial = $response->getBody();
 
