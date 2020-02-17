@@ -51322,8 +51322,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\guill\Desktop\APIPesada\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\guill\Desktop\APIPesada\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! Y:\escuela\,utt\,4to_cuatrimestre\appweb_servicios\nuevo_api\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! Y:\escuela\,utt\,4to_cuatrimestre\appweb_servicios\nuevo_api\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
