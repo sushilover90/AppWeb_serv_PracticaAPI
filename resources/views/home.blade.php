@@ -15,6 +15,9 @@
                         @endif
 
                             <a class="btn btn-outline-info mb-3" href="/board">Board</a>
+                            <select name="opciones" id="opciones">
+                                <option value="1"><a href="/board">Info del summoner</a></option>
+                            </select>
 
                         @if(Auth::user()->api_token==null)
                             <form action="/token/crear" method="post">

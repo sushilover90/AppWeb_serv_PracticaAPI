@@ -24,3 +24,4 @@ Route::get('/token/get','HomeController@getToken')->middleware('auth');
 Route::get('/riottoken','HomeController@getRiotToken')->middleware('auth');
 Route::post('/riottoken','HomeController@setRiotToken')->middleware('auth');
 Route::get('/profile/{SummonerName}','HomeController@profile');
+Route::get('/prueba/{texto}','HomeController@prueba')->middleware('auth');

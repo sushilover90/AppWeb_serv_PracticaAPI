@@ -27,9 +27,9 @@ class LeagueAPI extends Controller
         return $user;
     }
     //Regresa una URL de la imagen de perfil de la cuenta
-    public static function getSummonerAvatar(String $SummonerName)
+    public static function getSummonerAvatar(Request $request)
     {
-        $url = "http://avatar.leagueoflegends.com/la1/$SummonerName.png";
+        $url = "http://avatar.leagueoflegends.com/la1/".$request->segment(2).".png";
         return $url;
     }
 
@@ -56,12 +56,17 @@ class LeagueAPI extends Controller
         }
     }
 
-    public static function getChampionMastery(String $id)
+    public static function getChampionMastery(Request $request, String $id)
     {
 
         $client = new Client(self::guzzleClientConfiguration());
 
-        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$id", self::header());
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/$id",[
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ]);
+
 
         $champions = $response->getBody();
 

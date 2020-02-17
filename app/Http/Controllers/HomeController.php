@@ -25,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $t = new HomeController();
         return view('home');
     }
 
@@ -87,12 +88,16 @@ class HomeController extends Controller
         return response()->json(['error'=>'Token inválido o vacío.'],409);
 
     }
-    
-    public function profile(String $profile){
-        $icon = LeagueAPI::getSummonerAvatar($profile);
-        $user = LeagueAPI::getSummonerInfo($profile);
+
+    public function profile(Request $request){
+
+        $icon = LeagueAPI::getSummonerAvatar($request);
+        $request->merge(['data'=>['summoner_name'=>$request->segment(2)]]);
+        $user = LeagueAPI::getSummonerInfo($request);
+        $user = json_decode($user,true);
         $id = $user['id'];
-        return view('profile', ['icon' => $icon, 'fav' => LeagueAPI::getChampionMastery($id)]);
+
+        return view('profile', ['icon' => $icon, 'fav' => LeagueAPI::getChampionMastery($request, $id)]);
     }
 
     public function board(Request $request)
