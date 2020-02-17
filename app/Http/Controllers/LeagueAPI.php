@@ -112,6 +112,7 @@ class LeagueAPI extends Controller
 
     public static function getMatchHistory(Request $request, String $Accountid)
     {
+
         $client = new Client(self::guzzleClientConfiguration());
 
         $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matchlists/by-account/$Accountid", [
@@ -120,12 +121,95 @@ class LeagueAPI extends Controller
             ]
         ]);
 
+        $response2 = $client->request('get', 'http://static.developer.riotgames.com/docs/lol/queues.json');
+
         $Historial = $response->getBody();
+
+        $database  = $response2->getBody();
 
         $Historial = json_decode($Historial, true);
 
-        return $Historial;
+        $database = json_decode($database, true);
+
+
+        $lastHistorial = [];
+        $playerplace = null;
+        $teamwinner = null;
+
+        for ($x=0; $x < 5; $x++) {
+            $key = $Historial['matches'];
+            $aux123 = $key[$x];
+            $champName = self::getDDragon($aux123['champion']);
+
+            $matchinfo = self::getMatchInfo($request,$aux123['gameId']);
+
+            foreach ($matchinfo['participantIdentities'] as $aux) {
+                $participant = $aux['player'];
+                if ($participant['accountId'] == $Accountid){
+                    $playerplace = $aux['participantId'];
+                }
+
+            }
+
+            $a = 1;
+            foreach ($matchinfo['teams'] as $winnable) {
+
+                if ($winnable['win'] == 'Win'){
+                    $teamwinner = $a;
+                }
+
+                $a++;
+            }
+
+            if ($playerplace <= 5 & $teamwinner == 1){
+                $won = 'Ganó';
+            }
+            if ($playerplace >= 6 & $teamwinner == 1) {
+                $won = 'Perdió';
+            }
+            if ($playerplace <= 5 & $teamwinner == 2){
+                $won = 'Perdió';
+            }
+            if ($playerplace >= 6 & $teamwinner == 2) {
+                $won = 'Ganó';
+            }
+
+            foreach ($database as $key2) {
+                if ($aux123['queue'] == $key2['queueId']){
+                    $match = [
+                        'champion' => $champName['name'],
+                        'map' => $key2['map'],
+                        'desc' => $key2['description'],
+                        'Resultado' => $won,
+                    ];
+
+                }
+            }
+            $lastHistorial[] = $match;
+        }
+
+        return $lastHistorial;
     }
+
+
+    public static function getMatchInfo(Request $request, int $gameid){
+
+        $client = new Client(self::guzzleClientConfiguration());
+
+        $response = $client->request('GET', "https://la1.api.riotgames.com/lol/match/v4/matches/$gameid", [
+            'headers'  => [
+                'X-Riot-Token' => self::getRiotToken($request)
+            ]
+        ]);
+
+        $match = $response->getBody();
+
+        $match = json_decode($match, true);
+
+        return $match;
+
+    }
+
 
     private static function getRiotToken(Request &$request){
 

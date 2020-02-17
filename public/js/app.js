@@ -1994,8 +1994,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['get_icon', 'get_favchampions', 'get_user', 'get_ranked'],
+  props: ['get_icon', 'get_favchampions', 'get_user', 'get_ranked', 'get_match'],
   data: function data() {
     return {
       icon: "",
@@ -2023,7 +2029,8 @@ __webpack_require__.r(__webpack_exports__);
         freshBlood: null,
         hotStreak: null
       },
-      favchampsnames: []
+      favchampsnames: [],
+      Matchs: []
     };
   },
   created: function created() {
@@ -2034,6 +2041,8 @@ __webpack_require__.r(__webpack_exports__);
     if (JSON.parse(this.get_ranked) != 'U') {
       this.Ranked = JSON.parse(this.get_ranked);
     }
+
+    this.Matchs = JSON.parse(this.get_match);
   }
 });
 
@@ -6761,7 +6770,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg'); background-repeat: no-repeat; background-size: cover; position: relative; background-position: center;\n}\nh1, h3, span {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n}\nh5 {\n    color: rgb(255, 196, 0);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n#wl {\n    background: rgba(180, 173, 39, 0.445);\n    color: rgb(255, 255, 255);\n    border-radius: 5em;\n}\n", ""]);
+exports.push([module.i, "\n#banner{\n    background-image:url('https://nexus.leagueoflegends.com/wp-content/uploads/2019/10/Banner_Preseason-1_dwfwpnp0byzkpe2hk65v.jpg');\n    background-repeat: no-repeat;\n    background-size: cover;\n    position: relative;\n    background-position: center;\n}\nh1, h3, span {\n    color: rgb(182, 149, 41);\n    text-shadow: 2px 2px 10px rgba(244, 255, 95, 0.425);\n    border-radius: 3rem;\n}\nh5 {\n    color: rgb(10, 20, 37);\n    text-shadow: 0px 0px 5px rgba(255, 227, 150, 0.863);\n}\n#wl {\n    background: rgba(180, 173, 39, 0.445);\n    color: rgb(255, 255, 255);\n    border-radius: 5em;\n}\n", ""]);
 
 // exports
 
@@ -38421,14 +38430,14 @@ var render = function() {
             )
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row justify-content-center" }),
-      _vm._v(" "),
-      _c("div", [_vm._v("Platino")])
+      ])
     ]),
     _vm._v(" "),
     _c("div", { attrs: { id: "champs" } }, [
+      _c("h2", { staticStyle: { padding: "1em" } }, [
+        _vm._v("Campeones favoritos")
+      ]),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "row justify-content-center" },
@@ -38438,12 +38447,7 @@ var render = function() {
             {
               key: index,
               staticClass: "card mx-3",
-              staticStyle: {
-                width: "21rem",
-                background: "rgb(10, 20, 37)",
-                "border-color": "rgb(182,149,41)",
-                color: "rgb(182,149,41)"
-              }
+              staticStyle: { width: "21rem", background: "rgb(10, 20, 37)" }
             },
             [
               _c("img", {
@@ -38458,7 +38462,7 @@ var render = function() {
                   _c("h4", [_vm._v(" " + _vm._s(champ.title))])
                 ]),
                 _vm._v(" "),
-                _c("h5", { staticClass: "card-title" }, [
+                _c("h3", { staticClass: "card-title" }, [
                   _vm._v("Maestria " + _vm._s(champ.championLevel))
                 ]),
                 _vm._v(" "),
@@ -38478,19 +38482,56 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c(
+      "div",
+      { staticClass: "mt-3", attrs: { id: "matchs" } },
+      [
+        _c("h2", { staticStyle: { padding: "1em" } }, [
+          _vm._v("Historial de partidas recientes")
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.Matchs, function(match, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "row justify-content-start my-3 p-3",
+              staticStyle: { background: "rgb(10, 20, 37)" }
+            },
+            [
+              _c("div", { staticClass: "form-inline" }, [
+                _c("img", {
+                  staticClass: "mx-auto img-fluid img-thumbnail",
+                  staticStyle: { width: "5em", height: "5em" },
+                  attrs: {
+                    src: "/images/littlei/" + match.champion + "_0.JPG",
+                    alt: "CHAMPION ICON"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "ml-4" }, [
+                  _c("h3", [_vm._v(" " + _vm._s(match.champion))]),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v(_vm._s(match.map))])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "ml-4" }, [
+                  _c("p", [_vm._v(_vm._s(match.desc))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(match.Resultado))])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ]
+          )
+        })
+      ],
+      2
+    )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "matchs" } }, [
-      _c("div", { staticClass: "row justify-content-center" }, [_c("div")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

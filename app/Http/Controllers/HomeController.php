@@ -128,11 +128,14 @@ class HomeController extends Controller
 
         $ranked = LeagueAPI::getPositionRanked($request, $id);
 
+        $match = LeagueAPI::getMatchHistory($request, $user['accountId']);
+
         return view('profile', [
             'icon' => $icon,
             'fav' => json_encode($newfav_champs),
             'user' => json_encode($user),
             'ranked' => json_encode($ranked[0]),
+            'matchs' => json_encode($match),
         ]);
     }
 
