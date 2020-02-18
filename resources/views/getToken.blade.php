@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card" id="into">
-                    <div class="card-header" id="into">Tu token, lo necesitas para usar nuestra API.</div>
+                    <div class="card-header" id="header">Tu token, lo necesitas para usar nuestra API.</div>
 
                     <div class="card-body" id="into">
                         @if (session('status'))
