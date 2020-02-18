@@ -51363,8 +51363,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! Y:\escuela\,utt\,4to_cuatrimestre\appweb_servicios\nuevo_api\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! Y:\escuela\,utt\,4to_cuatrimestre\appweb_servicios\nuevo_api\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\exper\Documents\4to Cuatri\Trabajo2\AppWeb_serv_PracticaAPI\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\exper\Documents\4to Cuatri\Trabajo2\AppWeb_serv_PracticaAPI\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
