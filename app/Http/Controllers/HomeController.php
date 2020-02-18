@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $t = new HomeController();
         return view('home');
     }
 
@@ -55,6 +54,11 @@ class HomeController extends Controller
     {
 
         return view('getToken', ['token' => $request->user()->api_token]);
+    }
+
+    public function getTokenAsync(Request $request)
+    {
+        return $request->user()->api_token;
     }
 
     public function getRiotToken(Request $request)
@@ -96,26 +100,17 @@ class HomeController extends Controller
         return response()->json(['error' => 'Token inválido o vacío.'], 409);
     }
 
-    public function profile(Request $request)
+    public function profiledata(Request $request)
     {
 
 
         $icon = LeagueAPI::getSummonerAvatar($request);
-
         $request->merge(['data' => ['summoner_name' => $request->segment(2)]]);
-
         $user = LeagueAPI::getSummonerInfo($request);
-
         $user = json_decode($user, true);
-
         $id = $user['id'];
-
-        $accountId = $user['accountId'];
-
         $fav_champs = LeagueAPI::getChampionMastery($request, $id);
-
         $fav_champs = json_decode($fav_champs, true);
-
         $newfav_champs = [];
 
         for ($i = 0; $i < 3; $i++) {
@@ -130,13 +125,18 @@ class HomeController extends Controller
 
         $match = LeagueAPI::getMatchHistory($request, $user['accountId']);
 
-        return view('profile', [
+        return [
             'icon' => $icon,
-            'fav' => json_encode($newfav_champs),
-            'user' => json_encode($user),
-            'ranked' => json_encode($ranked[0]),
-            'matchs' => json_encode($match),
-        ]);
+            'fav' => $newfav_champs,
+            'user' => $user,
+            'ranked' => $ranked[0],
+            'matchs' => $match,
+        ];
+    }
+
+    public function profile(Request $request){
+        $sm = $request->segment(2);
+        return view('profile', ['sm' => $sm]);
     }
 
     public function board(Request $request)

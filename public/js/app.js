@@ -1926,7 +1926,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log("compoent mounted");
   }
 });
 
@@ -2001,7 +2001,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['get_icon', 'get_favchampions', 'get_user', 'get_ranked', 'get_match'],
+  props: ['sm'],
   data: function data() {
     return {
       icon: "",
@@ -2030,19 +2030,36 @@ __webpack_require__.r(__webpack_exports__);
         hotStreak: null
       },
       favchampsnames: [],
-      Matchs: []
+      Matchs: [],
+      path: null
     };
   },
   created: function created() {
-    this.Summoner = JSON.parse(this.get_user);
-    this.icon = this.get_icon;
-    this.favchampsnames = JSON.parse(this.get_favchampions);
+    this.path = this.sm;
+  },
+  mounted: function mounted() {
+    this.getAllProfileInfo();
+  },
+  methods: {
+    getAllProfileInfo: function getAllProfileInfo() {
+      var self = this;
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.api_token;
+      axios.get("/api/".concat(this.path), {
+        data: {
+          summoner_name: self.path
+        }
+      }).then(function (response) {
+        self.icon = response.data.icon;
+        self.Summoner = response.data.user;
 
-    if (JSON.parse(this.get_ranked) != 'U') {
-      this.Ranked = JSON.parse(this.get_ranked);
+        if (response.data.ranked != 'U') {
+          self.Ranked = response.data.ranked;
+        }
+
+        self.favchampsnames = response.data.fav;
+        self.Matchs = response.data.matchs;
+      });
     }
-
-    this.Matchs = JSON.parse(this.get_match);
   }
 });
 
@@ -2095,11 +2112,9 @@ __webpack_require__.r(__webpack_exports__);
       json_datos: null,
       new_riot_token: null,
       csrf_token: null
-    }; // return END
+    };
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
-    this.csrf_token = $('meta[name="csrf-token"]').attr('content');
     this.json_datos = JSON.parse(this.datos);
     this.riot_token = this.json_datos.token_actual;
     this.user_id = this.json_datos.user_id;
@@ -2121,8 +2136,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (response) {
         console.log(response);
         $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 'Token inválido, vacio o no se pudo procesar la petición. Verifica y vuelve a intentar, de lo contrario, intenta mas tarde.' + '</div>');
-      }); // this.json_summoner.name="2323";
-      // this.summoner_name = "1";
+      });
     }
   }
 });
@@ -2187,25 +2201,26 @@ __webpack_require__.r(__webpack_exports__);
         profileIconId: null,
         revisionDate: null,
         summonerLevel: null
-      },
-      csrf_token: null
-    }; // return END
+      }
+    };
+  },
+  created: function created() {
+    axios.get('/api_token').then(function (response) {
+      localStorage.api_token = response.data;
+    });
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
-    this.csrf_token = $('meta[name="csrf-token"]').attr('content');
+    console.log(localStorage.api_token);
   },
   methods: {
     Enviar: function Enviar() {
       var self = this;
       $('#alert').empty();
       $('#verMasDetalles').empty();
-      axios.post('/summoner', {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.api_token;
+      axios.post('/api/summoner/', {
         data: {
           summoner_name: self.summoner_name
-        },
-        headers: {
-          'x-csrf-token': self.csrf_token
         }
       }).then(function (response) {
         self.json_summoner.id = response.data.id;
@@ -2219,8 +2234,7 @@ __webpack_require__.r(__webpack_exports__);
         $('#alert').append('<div class="alert alert-primary" role="alert">\n' + 'Petición exitosa' + '</div>');
       })["catch"](function (response) {
         $('#alert').append('<div class="alert alert-danger" role="alert">\n' + 'Petición no exitosa, verifica bien tu summoner name y vuelve a intentarlo, de lo contrario, intenta más tarde.' + '</div>');
-      }); // this.json_summoner.name="2323";
-      // this.summoner_name = "1";
+      });
     }
   }
 });
@@ -38394,13 +38408,7 @@ var render = function() {
           _c("img", {
             staticClass:
               "rounded-circle mx-auto img-fluid img-thumbnail d-block",
-            staticStyle: {
-              width: "9em",
-              height: "9em",
-              "border-color": "rgb(182,149,41)",
-              color: "rgb(182,149,41)",
-              background: "rgb(10, 20, 37)"
-            },
+            staticStyle: { width: "9em", height: "9em" },
             attrs: {
               src: _vm.icon,
               alt: "Profile Icon",
@@ -38408,7 +38416,7 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("h3", [_vm._v(_vm._s(_vm.Summoner.summonerLevel))]),
+          _c("h3", [_vm._v("Nivel: " + _vm._s(_vm.Summoner.summonerLevel))]),
           _vm._v(" "),
           _c("h1", [_vm._v(_vm._s(_vm.Summoner.name))])
         ]),
@@ -38439,19 +38447,10 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "text-center", attrs: { id: "champs" } }, [
-      _c(
-        "h2",
-        {
-          staticStyle: {
-            padding: "1em",
-            "border-color": "rgb(182,149,41)",
-            color: "rgb(182,149,41)",
-            background: "rgb(10, 20, 37)"
-          }
-        },
-        [_vm._v("Campeones favoritos")]
-      ),
+    _c("div", { attrs: { id: "champs" } }, [
+      _c("h2", { staticStyle: { padding: "1em" } }, [
+        _vm._v("Campeones favoritos")
+      ]),
       _vm._v(" "),
       _c(
         "div",
@@ -38462,12 +38461,7 @@ var render = function() {
             {
               key: index,
               staticClass: "card mx-3",
-              staticStyle: {
-                width: "21rem",
-                background: "rgb(10, 20, 37)",
-                "border-color": "rgb(182,149,41)",
-                color: "rgb(182,149,41)"
-              }
+              staticStyle: { width: "21rem", background: "rgb(10, 20, 37)" }
             },
             [
               _c("img", {
@@ -38482,16 +38476,16 @@ var render = function() {
                   _c("h4", [_vm._v(" " + _vm._s(champ.title))])
                 ]),
                 _vm._v(" "),
-                _c("h3", { staticClass: "card-title; text-center" }, [
+                _c("h3", { staticClass: "card-title" }, [
                   _vm._v("Maestria " + _vm._s(champ.championLevel))
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "text-center" }, [
+                _c("p", [
                   _c("span", [_vm._v(_vm._s(champ.championPoints) + " ")]),
                   _vm._v(" puntos de maestria")
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "card-text; text-center" }, [
+                _c("p", { staticClass: "card-text" }, [
                   _vm._v(_vm._s(champ.details))
                 ])
               ])
@@ -38504,20 +38498,11 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      {
-        staticClass: "mt-3",
-        staticStyle: {
-          "border-color": "rgb(182,149,41)",
-          color: "rgb(182,149,41)"
-        },
-        attrs: { id: "matchs" }
-      },
+      { staticClass: "mt-3", attrs: { id: "matchs" } },
       [
-        _c(
-          "h2",
-          { staticClass: "text-center", staticStyle: { padding: "1em" } },
-          [_vm._v("Historial de partidas recientes")]
-        ),
+        _c("h2", { staticStyle: { padding: "1em" } }, [
+          _vm._v("Historial de partidas recientes")
+        ]),
         _vm._v(" "),
         _vm._l(_vm.Matchs, function(match, index) {
           return _c(
@@ -38525,23 +38510,13 @@ var render = function() {
             {
               key: index,
               staticClass: "row justify-content-start my-3 p-3",
-              staticStyle: {
-                background: "rgb(10, 20, 37)",
-                "border-color": "rgb(182,149,41)",
-                color: "rgb(182,149,41)"
-              }
+              staticStyle: { background: "rgb(10, 20, 37)" }
             },
             [
               _c("div", { staticClass: "form-inline" }, [
                 _c("img", {
                   staticClass: "mx-auto img-fluid img-thumbnail",
-                  staticStyle: {
-                    width: "5em",
-                    height: "5em",
-                    background: "rgb(10, 20, 37)",
-                    "border-color": "rgb(182,149,41)",
-                    color: "rgb(182,149,41)"
-                  },
+                  staticStyle: { width: "5em", height: "5em" },
                   attrs: {
                     src: "/images/littlei/" + match.champion + "_0.JPG",
                     alt: "CHAMPION ICON"

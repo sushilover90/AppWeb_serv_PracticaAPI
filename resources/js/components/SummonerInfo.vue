@@ -36,60 +36,63 @@
 </template>
 
 <script>
-    export default {
-        data(){
-            return {
+export default {
+    data(){
+        return {
+            summoner_name:null,
+            json_summoner:{
+                id: null,
+                accountId: null,
+                puuid: null,
+                name: null,
+                profileIconId: null,
+                revisionDate: null,
+                summonerLevel: null
+            },
+        }
+    },
+    created() {
+        axios.get('/api_token')
+        .then(function (response){
+            localStorage.api_token = response.data;
+        });
+    },
 
-                summoner_name:null,
-                json_summoner:{
-                    id: null,
-                    accountId: null,
-                    puuid: null,
-                    name: null,
-                    profileIconId: null,
-                    revisionDate: null,
-                    summonerLevel: null
-                },
-                csrf_token:null
-            } // return END
-        },
-        mounted() {
-            console.log('Component mounted.');
-            this.csrf_token = $('meta[name="csrf-token"]').attr('content');
-        },
-        methods: {
-            Enviar:function () {
-                let self = this;
-                $('#alert').empty();
-                $('#verMasDetalles').empty();
-                axios.post('/summoner',{
-                    data:{
-                        summoner_name : self.summoner_name,
-                    },
-                    headers:{
-                        'x-csrf-token' : self.csrf_token
-                    }}).then(function (response){
-                        self.json_summoner.id=response.data.id;
-                        self.json_summoner.accountId=response.data.accountId;
-                        self.json_summoner.puuid=response.data.puuid;
-                        self.json_summoner.name=response.data.name;
-                        self.json_summoner.profileIconId=response.data.profileIconId;
-                        self.json_summoner.revisionDate=response.data.revisionDate;
-                        self.json_summoner.summonerLevel=response.data.summonerLevel;
-                        $('#verMasDetalles').append('<a href="/profile/'+self.json_summoner.name+'" class="mt-2 btn btn-block btn-outline-info">Ver mas detalles</a>');
-                        $('#alert').append('<div class="alert alert-primary" role="alert">\n' +
-                        'Petición exitosa' +
-                        '</div>');
-                }).catch(function (response){
-                    $('#alert').append('<div class="alert alert-danger" role="alert">\n' +
-                        'Petición no exitosa, verifica bien tu summoner name y vuelve a intentarlo, de lo contrario, intenta más tarde.' +
-                        '</div>');
-                });
-                // this.json_summoner.name="2323";
-                // this.summoner_name = "1";
-            }
+    mounted() {
+        console.log(localStorage.api_token);
+    },
+
+    methods: {
+        Enviar:function () {
+            let self = this;
+            $('#alert').empty();
+            $('#verMasDetalles').empty();
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.api_token;
+            axios.post('/api/summoner/', {
+                data:{
+                    summoner_name: self.summoner_name,
+                }
+            })
+            .then(function (response){
+                self.json_summoner.id=response.data.id;
+                self.json_summoner.accountId=response.data.accountId;
+                self.json_summoner.puuid=response.data.puuid;
+                self.json_summoner.name=response.data.name;
+                self.json_summoner.profileIconId=response.data.profileIconId;
+                self.json_summoner.revisionDate=response.data.revisionDate;
+                self.json_summoner.summonerLevel=response.data.summonerLevel;
+                $('#verMasDetalles').append('<a href="/profile/'+self.json_summoner.name+'" class="mt-2 btn btn-block btn-outline-info">Ver mas detalles</a>');
+                $('#alert').append('<div class="alert alert-primary" role="alert">\n' +
+                'Petición exitosa' +
+                '</div>');
+            }).catch(function (response){
+                $('#alert').append('<div class="alert alert-danger" role="alert">\n' +
+                    'Petición no exitosa, verifica bien tu summoner name y vuelve a intentarlo, de lo contrario, intenta más tarde.' +
+                    '</div>');
+            });
         }
     }
+}
 </script>
 
 <style>

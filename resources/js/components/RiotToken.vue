@@ -37,11 +37,9 @@
                 json_datos:null,
                 new_riot_token:null,
                 csrf_token:null
-            } // return END
+            }
         },
         mounted() {
-            console.log('Component mounted.');
-            this.csrf_token = $('meta[name="csrf-token"]').attr('content');
             this.json_datos = JSON.parse(this.datos);
             this.riot_token = this.json_datos.token_actual;
             this.user_id = this.json_datos.user_id;
@@ -67,8 +65,6 @@
                         'Token inválido, vacio o no se pudo procesar la petición. Verifica y vuelve a intentar, de lo contrario, intenta mas tarde.' +
                         '</div>');
                 });
-                // this.json_summoner.name="2323";
-                // this.summoner_name = "1";
             }
         }
     }

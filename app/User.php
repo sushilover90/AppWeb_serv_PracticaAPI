@@ -50,4 +50,8 @@ class User extends Authenticatable
 
     }
 
+    public function getApiToken(Request $request){
+        return $request->user()->api_token;
+    }
+
 }

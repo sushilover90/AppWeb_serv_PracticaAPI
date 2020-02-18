@@ -4,8 +4,8 @@
             <div class="row justify-content-center">
                 <div class="col-sm-3 mt-3 text-center">
                     <img :src="icon" class="rounded-circle mx-auto img-fluid img-thumbnail d-block" alt="Profile Icon" title="Avatar del Invocador"
-                    style="width: 9em; height: 9em; border-color: rgb(182,149,41); color: rgb(182,149,41); background: rgb(10, 20, 37);">
-                    <h3>{{ Summoner.summonerLevel }}</h3>
+                    style="width: 9em; height: 9em;">
+                    <h3>Nivel: {{ Summoner.summonerLevel }}</h3>
                     <h1>{{ Summoner.name }}</h1>
                 </div>
                 <div class="col-sm-3 mt-3 text-center">
@@ -18,10 +18,10 @@
             </div>
         </div>
 
-        <div id="champs" class="text-center">
-            <h2 style="padding: 1em; border-color: rgb(182,149,41); color: rgb(182,149,41); background: rgb(10, 20, 37);">Campeones favoritos</h2>
+        <div id="champs">
+            <h2 style="padding: 1em;">Campeones favoritos</h2>
             <div class="row justify-content-center">
-                <div v-for="(champ, index) in favchampsnames" :key="index" class="card mx-3" style="width: 21rem; background: rgb(10, 20, 37); border-color: rgb(182,149,41); color: rgb(182,149,41);">
+                <div v-for="(champ, index) in favchampsnames" :key="index" class="card mx-3" style="width: 21rem; background: rgb(10, 20, 37);">
                     <img :src="'/images/' + champ.name + '_0.jpg'" class="card-img-top" alt="...">
                     <div class="card-body">
                         <div class="text-center">
@@ -29,19 +29,19 @@
                             <h4> {{ champ.title }}</h4>
                         </div>
 
-                        <h3 class="card-title; text-center">Maestria {{ champ.championLevel }}</h3>
-                        <p class="text-center"> <span>{{ champ.championPoints}} </span> puntos de maestria</p>
-                        <p class="card-text; text-center">{{ champ.details }}</p>
+                        <h3 class="card-title">Maestria {{ champ.championLevel }}</h3>
+                        <p> <span>{{ champ.championPoints}} </span> puntos de maestria</p>
+                        <p class="card-text">{{ champ.details }}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="matchs" class="mt-3" style="border-color: rgb(182,149,41); color: rgb(182,149,41);">
-            <h2 style="padding: 1em;" class="text-center">Historial de partidas recientes</h2>
-            <div class="row justify-content-start my-3 p-3" style="background: rgb(10, 20, 37); border-color: rgb(182,149,41); color: rgb(182,149,41);" v-for="(match , index) in Matchs" :key="index">
+        <div id="matchs" class="mt-3">
+            <h2 style="padding: 1em;">Historial de partidas recientes</h2>
+            <div class="row justify-content-start my-3 p-3" style="background: rgb(10, 20, 37);" v-for="(match , index) in Matchs" :key="index">
                 <div class="form-inline">
                     <img :src="'/images/littlei/' + match.champion + '_0.JPG'" class="mx-auto img-fluid img-thumbnail"
-                        style="width: 5em; height: 5em; background: rgb(10, 20, 37); border-color: rgb(182,149,41); color: rgb(182,149,41);" alt="CHAMPION ICON">
+                        style="width: 5em; height: 5em;" alt="CHAMPION ICON">
                     <div class="ml-4">
                         <h3> {{match.champion}}</h3>
                         <h4>{{match.map}}</h4>
@@ -59,7 +59,8 @@
 
 <script>
 export default {
-    props: ['get_icon', 'get_favchampions', 'get_user', 'get_ranked', 'get_match'],
+
+    props:['sm'],
 
     data(){
         return{
@@ -90,17 +91,37 @@ export default {
             },
             favchampsnames: [],
             Matchs: [],
+            path: null,
         }
     },
 
     created(){
-        this.Summoner = JSON.parse(this.get_user);
-        this.icon = this.get_icon;
-        this.favchampsnames  = JSON.parse(this.get_favchampions);
-        if (JSON.parse(this.get_ranked) != 'U') {
-           this.Ranked  = JSON.parse(this.get_ranked);
+        this.path = this.sm;
+    },
+
+    mounted(){
+        this.getAllProfileInfo();
+
+    },
+
+    methods:{
+        getAllProfileInfo:function(){
+            let self = this;
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.api_token;
+            axios.get(`/api/${this.path}`, {
+                data:{
+                    summoner_name: self.path
+                },
+            }).then(function (response){
+                self.icon = response.data.icon;
+                self.Summoner = response.data.user;
+                if (response.data.ranked != 'U') {
+                    self.Ranked = response.data.ranked;
+                }
+                self.favchampsnames = response.data.fav;
+                self.Matchs = response.data.matchs;
+            });
         }
-        this.Matchs = JSON.parse(this.get_match);
     },
 }
 </script>
